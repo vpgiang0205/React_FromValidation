@@ -34,7 +34,6 @@ const svReducer = (state = initialState, action) => {
         }
 
         case 'GET_KEYWORD': {
-            console.log(action.payload);
             state.keyword = action.payload
             return { ...state };
         }
