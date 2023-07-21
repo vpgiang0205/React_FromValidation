@@ -33,7 +33,6 @@ class Modal extends Component {
         this.setState({
             values: { ...this.state.values, [name]: value },
         }, () => {
-            console.log(this.state)
         })
     }
 
@@ -103,7 +102,6 @@ class Modal extends Component {
             formValid: masvValid && tensvValid && emailValid,
         },
             () => {
-                console.log(this.state);
             }
         )
     }
@@ -111,11 +109,14 @@ class Modal extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         const user = this.state.values
-        this.props.getSubmit(user)
+        const { getSubmit } = this.props
+        return getSubmit(user)
     }
+
 
     render() {
         return (
+
             <div>
                 <button type="button" className=" w-100 btn btn-success" data-toggle="modal" data-target="#modelId">
                     Thêm Sinh Viên
@@ -130,7 +131,7 @@ class Modal extends Component {
                                     <span aria-hidden="true">×</span>
                                 </button>
                             </div>
-                            <div className="modal-body">
+                            <div className="modal-body text-left">
 
                                 {/** Form */}
                                 <form onSubmit={this.handleSubmit}>
@@ -189,18 +190,17 @@ class Modal extends Component {
                                                 <div className='text-danger'>{this.state.errors.email}</div>
                                             )}
                                     </div>
+                                    <div className='text-right'>
+                                        <button
+                                            type="submit" disabled={!this.state.formValid}
+                                            className="btn btn-success"
+                                        >
+                                            Submit
+                                        </button>
+                                        <button type="button" className="btn btn-secondary ml-3" data-dismiss="modal">Close</button>
 
-                                    <button
-                                        type="submit" disabled={!this.state.formValid}
-                                        className="btn btn-success"
-                                    >
-                                        Submit
-                                    </button>
+                                    </div>
                                 </form>
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" className="btn btn-primary">Save</button>
                             </div>
                         </div>
                     </div>

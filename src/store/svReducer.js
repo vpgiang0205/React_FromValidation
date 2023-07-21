@@ -26,6 +26,22 @@ const initialState = {
 
 const svReducer = (state = initialState, action) => {
     switch (action.type) {
+        case 'ADD_SV': {
+            const newSV = action.payload;
+            let duplicateFound = state.listSV.some((sv) => sv.masv === newSV.masv);
+            
+            if (duplicateFound) {
+              alert("Mã nhân viên đã tồn tại!");
+              return state; // Return the current state without making any changes
+            } else {
+              return {
+                ...state,
+                listSV: [...state.listSV, newSV],
+              };
+            }
+          }
+      
+
         case 'DELETE_SV': {
             return {
                 ...state,

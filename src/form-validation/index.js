@@ -7,6 +7,7 @@ import Modal from './modal'
 class FromValidation extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       listSV: this.props.listSV,
     }
@@ -25,14 +26,8 @@ class FromValidation extends Component {
   }
 
   gethandleSubmidAdd = (user) => {
-
-    console.log(this.state);
-    let listSVClone = [...this.state.listSV, user];
-    this.setState({
-      listSV: listSVClone,
-    })
-
-    console.log(this.state.listSV)
+    const { addUser } = this.props;
+    return addUser(user)
   }
 
   render() {
@@ -79,4 +74,17 @@ const mapStateToProps = (state) => {
   }
 };
 
-export default connect(mapStateToProps)(FromValidation)
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addUser: (user) => {
+      const action = {
+        type: "ADD_SV",
+        payload: user
+      };
+      dispatch(action)
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FromValidation)

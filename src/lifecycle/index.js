@@ -36,9 +36,9 @@ export default class Lifecycle extends Component {
     console.log("shouldComponentUpdate", nextProps, nextState);
 
     // Neu = 2 thi ko tra ve
-    if (nextState.number === 2) {
-      return false
-    }
+    // if (nextState.number === 2) {
+    //   return false
+    // }
     return true
 
   }
