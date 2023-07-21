@@ -10,17 +10,18 @@ class FromValidation extends Component {
 
     this.state = {
       listSV: this.props.listSV,
+      svEdit: this.props.svEdit,
     }
   }
   renderListSV = () => {
-    let { listSV, keyword } = this.props;
+    let { listSV, keyword, svEdit } = this.props;
     listSV = listSV.filter(
       (sv) =>
         sv.tensv.toLowerCase().indexOf(keyword.toLowerCase()) !== -1
     )
     return listSV?.map((sv, index) => {
       return (
-        <FormItem sv={sv} key={index} />
+        <FormItem sv={sv} key={index} getHandleEdit={this.getHandleEdit} />
       )
     })
   }
@@ -28,6 +29,14 @@ class FromValidation extends Component {
   gethandleSubmidAdd = (user) => {
     const { addUser } = this.props;
     return addUser(user)
+  }
+
+  getHandleEdit = (svEditNew) => {
+    this.setState({
+      svEdit: svEditNew
+    })
+    console.log(this.state)
+
   }
 
   render() {
@@ -42,7 +51,7 @@ class FromValidation extends Component {
 
             {/** render modal */}
             <div className='col-5'>
-              <Modal getSubmit={this.gethandleSubmidAdd} />
+              <Modal getSubmit={this.gethandleSubmidAdd}/>
             </div>
           </div>
 
@@ -70,7 +79,8 @@ class FromValidation extends Component {
 const mapStateToProps = (state) => {
   return {
     listSV: state.svReducer.listSV,
-    keyword: state.svReducer.keyword
+    keyword: state.svReducer.keyword,
+    svEdit: null
   }
 };
 
@@ -79,7 +89,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     addUser: (user) => {
       const action = {
-        type: "ADD_SV",
+        type: "SUBMIT_SV",
         payload: user
       };
       dispatch(action)

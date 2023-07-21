@@ -19,11 +19,12 @@ class Modal extends Component {
                 email: ""
             },
             formValid: false,
-
             masvValid: false,
             tensvValid: false,
             sdtValid: false,
             emailValid: false,
+
+            svEditing: null
         }
     }
 
@@ -113,12 +114,24 @@ class Modal extends Component {
         return getSubmit(user)
     }
 
+    componentDidUpdate(prevProps) {
+        if (this.props.svEdit !== prevProps.svEdit) {
+            this.setState({
+                svEditing: this.props.svEdit,
+                values: { ...this.state.values, ...this.props.svEdit },
+            });
+        }
+    }
 
     render() {
+        const { svEdit } = this.props
+        const { svEditing } = this.state
         return (
 
             <div>
-                <button type="button" className=" w-100 btn btn-success" data-toggle="modal" data-target="#modelId">
+                <button type="button" className=" w-100 btn btn-success" data-toggle="modal" data-target="#modelId" onClick={() => {
+                    this.setState({ svEditing: null });
+                }}>
                     Thêm Sinh Viên
                 </button>
 
@@ -126,7 +139,9 @@ class Modal extends Component {
                     <div className="modal-dialog" role="document">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h5 className="modal-title">Modal title</h5>
+
+                                <h5 className="modal-title"> {svEditing ? "Edit" : "Add"}</h5>
+
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">×</span>
                                 </button>
@@ -213,7 +228,8 @@ class Modal extends Component {
 const mapStateToProps = (state) => {
     return {
         listSV: state.svReducer.listSV,
-        keyword: state.svReducer.keyword
+        keyword: state.svReducer.keyword,
+        svEdit: state.svReducer.svEdit
     }
 };
 
